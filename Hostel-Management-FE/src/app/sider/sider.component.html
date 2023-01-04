@@ -1,0 +1,29 @@
+<nz-layout class="layout">
+  <nz-sider nzCollapsible nzWidth="200px">
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item [nzSelected]="location === '/admin/user-management'">
+        <a routerLink="/admin/user-management">
+          <span nz-icon nzType="user"></span>
+          <span>User Management</span>
+        </a>
+      </li>
+      <li nz-menu-item [nzSelected]="location === '/admin/hostel-management'">
+        <a routerLink="/admin/hostel-management">
+          <span nz-icon nzType="insert-row-left"></span>
+          <span>Hostel Management</span>
+        </a>
+      </li>
+      <li nz-menu-item [nzSelected]="location === '/admin/room-management'">
+        <a routerLink="/admin/room-management">
+          <span nz-icon nzType="appstore"></span>
+          <span>Rooms Management</span>
+        </a>
+      </li>
+      <li nz-menu-item>
+        <span nz-icon nzType="logout"></span>
+        <span>Logout</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-content><ng-content></ng-content> </nz-content>
+</nz-layout>

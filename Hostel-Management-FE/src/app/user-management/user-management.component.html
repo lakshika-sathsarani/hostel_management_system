@@ -1,1 +1,37 @@
-<p>user-management works!</p>
+<app-sider>
+  <div class="mainContent">
+    <h3>User Management</h3>
+    <nz-table #basicTable [nzData]="tableData">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Student Id</th>
+          <th>Mobile</th>
+          <th>E-mail</th>
+          <th>Address</th>
+          <th>Hostel Id : Room No</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.name }}</td>
+          <td>{{ data.id }}</td>
+          <td>{{ data.mobile }}</td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.address }}</td>
+          <td>
+            {{
+              data?.hostel?.hostelId === null || data?.hostel?.roomId === null
+                ? "N/A"
+                : data?.hostel?.hostelId + " : " + data?.hostel?.roomId
+            }}
+          </td>
+          <td>
+            <a (click)="deleteUser(data._id)">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</app-sider>
