@@ -2,7 +2,7 @@ const Hostel = require("../models/Hostel");
 
 exports.addHostel = async (req, res) => {
   try {
-    const hostel = new Hostel();
+    const hostel = new Hostel(req.body);
     const result = await hostel.save();
     if (result) {
       res.status(201).send({ message: "success!", data: result });
@@ -54,9 +54,9 @@ exports.updateHostel = async (req, res) => {
   }
 };
 
-exports.deleteHostel = async (res, req) => {
+exports.deleteHostel = async (req, res) => {
   try {
-    const hostel = await Hostel.findByIdAndDelete(res.params.id);
+    const hostel = await Hostel.findByIdAndDelete(req.params.id);
     if (hostel) {
       res.status(200).send({ message: "success!", data: hostel });
     } else {
