@@ -2,7 +2,7 @@ const Room = require("../models/Room");
 
 exports.addRoom = async (req, res) => {
   try {
-    const room = new Room();
+    const room = new Room(req.body);
     const result = await room.save();
     if (result) {
       res.status(201).send({ message: "success!", data: result });
@@ -18,6 +18,19 @@ exports.getRoomsByHostelId = async (req, res) => {
   try {
     const hostelId = req.params.hostelId;
     const rooms = await Room.find({ hostelId: hostelId });
+    if (rooms) {
+      res.status(200).send({ message: "success!", data: rooms });
+    } else {
+      res.status(400).send({ message: "failed!", data: rooms });
+    }
+  } catch (error) {
+    console.log("Error in get rooms", error);
+  }
+};
+
+exports.getRooms = async (req, res) => {
+  try {
+    const rooms = await Room.find();
     if (rooms) {
       res.status(200).send({ message: "success!", data: rooms });
     } else {

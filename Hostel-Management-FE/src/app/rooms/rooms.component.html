@@ -30,42 +30,26 @@
         </nz-form-item>
         <nz-form-item>
           <nz-form-label [nzSpan]="6" nzRequired>Hostel Name</nz-form-label>
-          <nz-form-control [nzSpan]="12" nzErrorTip="Please Enter Hostel Name!">
-            <input
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please Select Hostel Id!">
+            <nz-select
+              formControlName="hostelId"
+              nzPlaceHolder="Select Hostel Id"
               style="width: 100%"
-              formControlName="name"
-              nz-input
-              type="text"
-              placeholder="Enter Hostel Name"
-            />
+              [nzOptions]="hostels"
+            >
+            </nz-select>
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-label [nzSpan]="6">No Of Rooms</nz-form-label>
-          <nz-form-control [nzSpan]="12" nzErrorTip="Please enter No Of Rooms!">
+          <nz-form-label nzRequired [nzSpan]="6">Space</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please Enter Space!">
             <input
               style="width: 100%"
-              formControlName="noOfRooms"
+              formControlName="space"
               nz-input
               type="number"
-              placeholder="Enter No Of Rooms"
+              placeholder="Enter Space"
             />
-          </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSpan]="6">Hostel Type</nz-form-label>
-          <nz-form-control
-            [nzSpan]="12"
-            nzErrorTip="Please select Hostel Type!"
-          >
-            <nz-select
-              formControlName="type"
-              nzPlaceHolder="Select Hostel Type"
-              style="width: 100%"
-            >
-              <nz-option nzValue="Male" nzLabel="Male"></nz-option>
-              <nz-option nzValue="Female" nzLabel="Female"></nz-option>
-            </nz-select>
           </nz-form-control>
         </nz-form-item>
       </form>
@@ -85,27 +69,28 @@
       <thead>
         <tr>
           <th>Hostel Id</th>
-          <th>Hostel Name</th>
-          <th>Type</th>
-          <th>No of Rooms</th>
+          <th>Room Id</th>
+          <th>Space</th>
+          <th>Avalability</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.hostelId }}</td>
           <td>{{ data.id }}</td>
-          <td>{{ data.name }}</td>
-          <td>{{ data.type }}</td>
-          <td>{{ data.noOfRooms }}</td>
+          <td>{{ data.space }}</td>
           <td>
-            <!-- <a (click)="deleteHostel(data._id)">Delete</a> -->
+            {{ data.availability === true ? "Available" : "Unavailable" }}
+          </td>
+          <td>
             <a>Edit</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a
               nz-popconfirm
-              nzPopconfirmTitle="Are you sure delete this hostel?"
+              nzPopconfirmTitle="Are you sure delete this room?"
               nzPopconfirmPlacement="bottom"
-              (nzOnConfirm)="deleteHostel(data._id)"
+              (nzOnConfirm)="deleteRoom(data._id)"
             >
               Delete
             </a>

@@ -4,8 +4,10 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RoomService } from '../_services/room.service';
 import { HostelService } from '../_services/hostel.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-rooms',
@@ -15,8 +17,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class RoomsComponent {
   isVisible = false;
   validateForm!: UntypedFormGroup;
+  hostels: any[] = [];
   listOfData: any[] = [];
-
   resetForm(e: MouseEvent): void {
     e.preventDefault();
     this.validateForm.reset();
@@ -30,15 +32,17 @@ export class RoomsComponent {
 
   constructor(
     private fb: UntypedFormBuilder,
+    private roomService: RoomService,
     private hostelService: HostelService,
     private message: NzMessageService
   ) {}
 
-  addHostel(data: any, e: MouseEvent) {
-    this.hostelService.addHostel(data).subscribe({
+  addRoom(data: any, e: MouseEvent) {
+    this.roomService.addRoom(data).subscribe({
       next: () => {
-        this.message.success('Hostel Added Sucessfully!');
+        this.message.success('Room Added Sucessfully!');
         this.getHostels();
+        this.getRooms();
         this.handleCancel(e);
       },
       error: (e) => {
@@ -51,6 +55,19 @@ export class RoomsComponent {
   getHostels() {
     this.hostelService.getHostels().subscribe({
       next: (data) => {
+        data.data.forEach((item: any) => {
+          this.hostels.push({ label: item.id, value: item.id });
+        });
+      },
+      error: (e) => {
+        console.log('Error', e);
+      },
+    });
+  }
+
+  getRooms() {
+    this.roomService.getRooms().subscribe({
+      next: (data) => {
         this.listOfData = data.data;
       },
       error: (e) => {
@@ -59,11 +76,11 @@ export class RoomsComponent {
     });
   }
 
-  deleteHostel(id: string) {
-    this.hostelService.deletHostel(id).subscribe({
+  deleteRoom(id: string) {
+    this.roomService.deletRoom(id).subscribe({
       next: () => {
         this.message.success('Delete Successfull!');
-        this.getHostels();
+        this.getRooms();
       },
       error: (e) => {
         console.log('Error', e);
@@ -74,7 +91,7 @@ export class RoomsComponent {
 
   submitForm(e: MouseEvent): void {
     if (this.validateForm.valid) {
-      this.addHostel(this.validateForm.value, e);
+      this.addRoom(this.validateForm.value, e);
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -87,11 +104,11 @@ export class RoomsComponent {
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
+      hostelId: [null, [Validators.required]],
       id: [null, [Validators.required]],
-      noOfRooms: [null, [Validators.required]],
-      type: [null, [Validators.required]],
+      space: [null, [Validators.required]],
     });
+    this.getRooms();
     this.getHostels();
   }
 
