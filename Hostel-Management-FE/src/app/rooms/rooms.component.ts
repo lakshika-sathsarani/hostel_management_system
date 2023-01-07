@@ -4,8 +4,10 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RoomService } from '../_services/room.service';
 import { HostelService } from '../_services/hostel.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-rooms',
@@ -15,8 +17,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class RoomsComponent {
   isVisible = false;
   validateForm!: UntypedFormGroup;
+  hostels: any[] = [];
   listOfData: any[] = [];
-
+  update: boolean = false;
+  selected: any;
   resetForm(e: MouseEvent): void {
     e.preventDefault();
     this.validateForm.reset();
@@ -30,26 +34,56 @@ export class RoomsComponent {
 
   constructor(
     private fb: UntypedFormBuilder,
+    private roomService: RoomService,
     private hostelService: HostelService,
     private message: NzMessageService
   ) {}
 
-  addHostel(data: any, e: MouseEvent) {
-    this.hostelService.addHostel(data).subscribe({
-      next: () => {
-        this.message.success('Hostel Added Sucessfully!');
-        this.getHostels();
-        this.handleCancel(e);
-      },
-      error: (e) => {
-        console.log('Error', e);
-        this.message.error('Failed! Try Again');
-      },
-    });
+  manageRoom(data: any, e: MouseEvent) {
+    if (this.update) {
+      this.roomService.updateRoom(data, this.selected._id).subscribe({
+        next: () => {
+          this.message.success('Room Updated Sucessfully!');
+          this.getHostels();
+          this.getRooms();
+          this.handleCancel(e);
+        },
+        error: (e) => {
+          console.log('Error', e);
+          this.message.error('Failed! Try Again');
+        },
+      });
+    } else {
+      this.roomService.addRoom(data).subscribe({
+        next: () => {
+          this.message.success('Room Added Sucessfully!');
+          this.getHostels();
+          this.getRooms();
+          this.handleCancel(e);
+        },
+        error: (e) => {
+          console.log('Error', e);
+          this.message.error('Failed! Try Again');
+        },
+      });
+    }
   }
 
   getHostels() {
     this.hostelService.getHostels().subscribe({
+      next: (data) => {
+        data.data.forEach((item: any) => {
+          this.hostels.push({ label: item.id, value: item.id });
+        });
+      },
+      error: (e) => {
+        console.log('Error', e);
+      },
+    });
+  }
+
+  getRooms() {
+    this.roomService.getRooms().subscribe({
       next: (data) => {
         this.listOfData = data.data;
       },
@@ -59,11 +93,11 @@ export class RoomsComponent {
     });
   }
 
-  deleteHostel(id: string) {
-    this.hostelService.deletHostel(id).subscribe({
+  deleteRoom(id: string) {
+    this.roomService.deletRoom(id).subscribe({
       next: () => {
         this.message.success('Delete Successfull!');
-        this.getHostels();
+        this.getRooms();
       },
       error: (e) => {
         console.log('Error', e);
@@ -72,9 +106,20 @@ export class RoomsComponent {
     });
   }
 
+  updateModal(data: any): void {
+    this.update = true;
+    this.selected = data;
+    this.validateForm = this.fb.group({
+      hostelId: [data.hostelId, [Validators.required]],
+      id: [data.id, [Validators.required]],
+      space: [data.space, [Validators.required]],
+    });
+    this.showModal();
+  }
+
   submitForm(e: MouseEvent): void {
     if (this.validateForm.valid) {
-      this.addHostel(this.validateForm.value, e);
+      this.manageRoom(this.validateForm.value, e);
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -87,11 +132,11 @@ export class RoomsComponent {
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
-      name: [null, [Validators.required]],
+      hostelId: [null, [Validators.required]],
       id: [null, [Validators.required]],
-      noOfRooms: [null, [Validators.required]],
-      type: [null, [Validators.required]],
+      space: [null, [Validators.required]],
     });
+    this.getRooms();
     this.getHostels();
   }
 
@@ -106,5 +151,7 @@ export class RoomsComponent {
   handleCancel(e: MouseEvent): void {
     this.isVisible = false;
     this.resetForm(e);
+    this.update = false;
+    this.selected = undefined;
   }
 }

@@ -5,10 +5,12 @@ const {
   getRoomsByHostelId,
   updateRoom,
   updateRoomStatus,
+  getRooms,
 } = require("../controllers/room.controller");
 
 router.post("/", addRoom);
 router.get("/:hostelId", getRoomsByHostelId);
+router.get("/", getRooms);
 router.delete("/:id", deleteRoom);
 router.put("/:id", updateRoom);
 router.patch("/:id", updateRoomStatus);
