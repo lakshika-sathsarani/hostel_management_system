@@ -4,7 +4,7 @@
   </button>
   <nz-modal
     [(nzVisible)]="isVisible"
-    nzTitle="Add New Hostel"
+    [nzTitle]="update ? 'Edit Hostel' : 'Add New Hostel'"
     nzWidth="700px"
     nzClosable="false"
     [nzFooter]="modalFooter"
@@ -75,7 +75,7 @@
         Cancel
       </button>
       <button nz-button nzType="primary" (click)="submitForm($event)">
-        Add
+        {{ update ? "Update" : "Add" }}
       </button>
     </ng-template>
   </nz-modal>
@@ -99,7 +99,7 @@
           <td>{{ data.noOfRooms }}</td>
           <td>
             <!-- <a (click)="deleteHostel(data._id)">Delete</a> -->
-            <a>Edit</a>
+            <a (click)="updateModal(data)">Edit</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a
               nz-popconfirm

@@ -19,6 +19,8 @@ export class RoomsComponent {
   validateForm!: UntypedFormGroup;
   hostels: any[] = [];
   listOfData: any[] = [];
+  update: boolean = false;
+  selected: any;
   resetForm(e: MouseEvent): void {
     e.preventDefault();
     this.validateForm.reset();
@@ -37,19 +39,34 @@ export class RoomsComponent {
     private message: NzMessageService
   ) {}
 
-  addRoom(data: any, e: MouseEvent) {
-    this.roomService.addRoom(data).subscribe({
-      next: () => {
-        this.message.success('Room Added Sucessfully!');
-        this.getHostels();
-        this.getRooms();
-        this.handleCancel(e);
-      },
-      error: (e) => {
-        console.log('Error', e);
-        this.message.error('Failed! Try Again');
-      },
-    });
+  manageRoom(data: any, e: MouseEvent) {
+    if (this.update) {
+      this.roomService.updateRoom(data, this.selected._id).subscribe({
+        next: () => {
+          this.message.success('Room Updated Sucessfully!');
+          this.getHostels();
+          this.getRooms();
+          this.handleCancel(e);
+        },
+        error: (e) => {
+          console.log('Error', e);
+          this.message.error('Failed! Try Again');
+        },
+      });
+    } else {
+      this.roomService.addRoom(data).subscribe({
+        next: () => {
+          this.message.success('Room Added Sucessfully!');
+          this.getHostels();
+          this.getRooms();
+          this.handleCancel(e);
+        },
+        error: (e) => {
+          console.log('Error', e);
+          this.message.error('Failed! Try Again');
+        },
+      });
+    }
   }
 
   getHostels() {
@@ -89,9 +106,20 @@ export class RoomsComponent {
     });
   }
 
+  updateModal(data: any): void {
+    this.update = true;
+    this.selected = data;
+    this.validateForm = this.fb.group({
+      hostelId: [data.hostelId, [Validators.required]],
+      id: [data.id, [Validators.required]],
+      space: [data.space, [Validators.required]],
+    });
+    this.showModal();
+  }
+
   submitForm(e: MouseEvent): void {
     if (this.validateForm.valid) {
-      this.addRoom(this.validateForm.value, e);
+      this.manageRoom(this.validateForm.value, e);
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -123,5 +151,7 @@ export class RoomsComponent {
   handleCancel(e: MouseEvent): void {
     this.isVisible = false;
     this.resetForm(e);
+    this.update = false;
+    this.selected = undefined;
   }
 }

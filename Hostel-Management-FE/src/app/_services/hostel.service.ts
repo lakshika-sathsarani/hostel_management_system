@@ -22,6 +22,10 @@ export class HostelService {
     return this.http.post(URL + 'hostel', data);
   }
 
+  updateHostel(data: any, id: string): Observable<any> {
+    return this.http.put(URL + `hostel/${id}`, data);
+  }
+
   deletHostel(id: string): Observable<any> {
     return this.http.delete(URL + `hostel/${id}`);
   }

@@ -7,6 +7,7 @@ import {
 import { AuthService } from '../_services/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
+import { StorageService } from '../_services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   validateForm!: UntypedFormGroup;
+  isLoggedIn = false;
 
   constructor(
     private fb: UntypedFormBuilder,
     private authService: AuthService,
     private message: NzMessageService,
+    private storageService: StorageService,
     private router: Router
   ) {}
 
@@ -30,7 +33,13 @@ export class LoginComponent implements OnInit {
         next: (data) => {
           console.log(data);
           this.message.success('Login Successfull!');
-          //this.router.navigate(['/home']);
+          this.storageService.saveUser(data.data.token);
+          this.isLoggedIn = true;
+          if (data.data.user.role === 'Student') {
+            this.router.navigate(['/']);
+          } else {
+            this.router.navigate(['/admin/user-management']);
+          }
         },
         error: (err) => {
           this.message.error('Login Failed! Try Again!');
@@ -47,6 +56,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      this.isLoggedIn = true;
+      if (this.storageService.getUser().role === 'Student') {
+        this.router.navigate(['/']);
+      } else {
+        this.router.navigate(['/admin/user-management']);
+      }
+    }
+
     this.validateForm = this.fb.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],

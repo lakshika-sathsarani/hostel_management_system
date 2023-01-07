@@ -16,6 +16,8 @@ export class HostelComponent {
   isVisible = false;
   validateForm!: UntypedFormGroup;
   listOfData: any[] = [];
+  update: boolean = false;
+  selected: any;
 
   resetForm(e: MouseEvent): void {
     e.preventDefault();
@@ -34,18 +36,32 @@ export class HostelComponent {
     private message: NzMessageService
   ) {}
 
-  addHostel(data: any, e: MouseEvent) {
-    this.hostelService.addHostel(data).subscribe({
-      next: () => {
-        this.message.success('Hostel Added Sucessfully!');
-        this.getHostels();
-        this.handleCancel(e);
-      },
-      error: (e) => {
-        console.log('Error', e);
-        this.message.error('Failed! Try Again');
-      },
-    });
+  manageHostel(data: any, e: MouseEvent) {
+    if (this.update) {
+      this.hostelService.updateHostel(data, this.selected._id).subscribe({
+        next: () => {
+          this.message.success('Hostel Updated Sucessfully!');
+          this.getHostels();
+          this.handleCancel(e);
+        },
+        error: (e) => {
+          console.log('Error', e);
+          this.message.error('Failed! Try Again');
+        },
+      });
+    } else {
+      this.hostelService.addHostel(data).subscribe({
+        next: () => {
+          this.message.success('Hostel Added Sucessfully!');
+          this.getHostels();
+          this.handleCancel(e);
+        },
+        error: (e) => {
+          console.log('Error', e);
+          this.message.error('Failed! Try Again');
+        },
+      });
+    }
   }
 
   getHostels() {
@@ -74,7 +90,7 @@ export class HostelComponent {
 
   submitForm(e: MouseEvent): void {
     if (this.validateForm.valid) {
-      this.addHostel(this.validateForm.value, e);
+      this.manageHostel(this.validateForm.value, e);
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -83,6 +99,18 @@ export class HostelComponent {
         }
       });
     }
+  }
+
+  updateModal(data: any): void {
+    this.update = true;
+    this.selected = data;
+    this.validateForm = this.fb.group({
+      name: [data.name, [Validators.required]],
+      id: [data.id, [Validators.required]],
+      noOfRooms: [data.noOfRooms, [Validators.required]],
+      type: [data.type, [Validators.required]],
+    });
+    this.showModal();
   }
 
   ngOnInit(): void {
@@ -99,12 +127,10 @@ export class HostelComponent {
     this.isVisible = true;
   }
 
-  handleOk(): void {
-    this.isVisible = false;
-  }
-
   handleCancel(e: MouseEvent): void {
     this.isVisible = false;
     this.resetForm(e);
+    this.update = false;
+    this.selected = undefined;
   }
 }

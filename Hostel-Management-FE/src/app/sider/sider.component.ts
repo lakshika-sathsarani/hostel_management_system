@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
+import { StorageService } from '../_services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sider',
@@ -8,7 +10,16 @@ import { Location } from '@angular/common';
 })
 export class SiderComponent {
   location: any;
-  constructor(location: Location) {
+  constructor(
+    location: Location,
+    private storageService: StorageService,
+    private router: Router
+  ) {
     this.location = location.path();
+  }
+
+  logout(): void {
+    this.storageService.clean();
+    this.router.navigate(['/']);
   }
 }
