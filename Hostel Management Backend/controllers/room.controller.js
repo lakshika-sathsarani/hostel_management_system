@@ -28,9 +28,9 @@ exports.getRoomsByHostelId = async (req, res) => {
   }
 };
 
-exports.deleteRoom = async (res, req) => {
+exports.deleteRoom = async (req, res) => {
   try {
-    const room = await Room.findByIdAndDelete(res.params.id);
+    const room = await Room.findByIdAndDelete(req.params.id);
     if (room) {
       res.status(200).send({ message: "success!", data: room });
     } else {

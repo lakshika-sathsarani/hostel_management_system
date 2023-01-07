@@ -1,3 +1,117 @@
 <app-sider>
-  <p>Room works!</p>
+  <button class="addBtn" nz-button [nzType]="'primary'" (click)="showModal()">
+    <span>Add Room</span>
+  </button>
+  <nz-modal
+    [(nzVisible)]="isVisible"
+    nzTitle="Add New Hostel"
+    nzWidth="700px"
+    nzClosable="false"
+    [nzFooter]="modalFooter"
+  >
+    <ng-container *nzModalContent>
+      <form
+        name="form"
+        nz-form
+        [formGroup]="validateForm"
+        (ngSubmit)="submitForm($event)"
+      >
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzRequired>Room Id</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please Enter Room Id!">
+            <input
+              formControlName="id"
+              nz-input
+              type="text"
+              placeholder="Enter Room Id"
+              style="width: 100%"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzRequired>Hostel Name</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please Enter Hostel Name!">
+            <input
+              style="width: 100%"
+              formControlName="name"
+              nz-input
+              type="text"
+              placeholder="Enter Hostel Name"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">No Of Rooms</nz-form-label>
+          <nz-form-control [nzSpan]="12" nzErrorTip="Please enter No Of Rooms!">
+            <input
+              style="width: 100%"
+              formControlName="noOfRooms"
+              nz-input
+              type="number"
+              placeholder="Enter No Of Rooms"
+            />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6">Hostel Type</nz-form-label>
+          <nz-form-control
+            [nzSpan]="12"
+            nzErrorTip="Please select Hostel Type!"
+          >
+            <nz-select
+              formControlName="type"
+              nzPlaceHolder="Select Hostel Type"
+              style="width: 100%"
+            >
+              <nz-option nzValue="Male" nzLabel="Male"></nz-option>
+              <nz-option nzValue="Female" nzLabel="Female"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+    <ng-template #modalFooter>
+      <button nz-button nzType="default" (click)="handleCancel($event)">
+        Cancel
+      </button>
+      <button nz-button nzType="primary" (click)="submitForm($event)">
+        Add
+      </button>
+    </ng-template>
+  </nz-modal>
+
+  <div class="table">
+    <nz-table #basicTable [nzData]="listOfData">
+      <thead>
+        <tr>
+          <th>Hostel Id</th>
+          <th>Hostel Name</th>
+          <th>Type</th>
+          <th>No of Rooms</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.id }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.type }}</td>
+          <td>{{ data.noOfRooms }}</td>
+          <td>
+            <!-- <a (click)="deleteHostel(data._id)">Delete</a> -->
+            <a>Edit</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure delete this hostel?"
+              nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="deleteHostel(data._id)"
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
 </app-sider>
