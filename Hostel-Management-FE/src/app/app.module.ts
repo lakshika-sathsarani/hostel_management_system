@@ -19,6 +19,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { HomeComponent } from './home/home.component';
 import { SiderComponent } from './sider/sider.component';
+import { BookingComponent } from './booking/booking.component';
 
 registerLocaleData(en);
 
@@ -32,6 +33,7 @@ registerLocaleData(en);
     UserManagementComponent,
     HomeComponent,
     SiderComponent,
+    BookingComponent,
   ],
   imports: [
     BrowserModule,

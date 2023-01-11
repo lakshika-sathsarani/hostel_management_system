@@ -1,0 +1,13 @@
+[nz-radio] {
+  display: block;
+  height: 32px;
+}
+
+.form {
+  width: 50%;
+  margin: 25px auto;
+}
+
+.main {
+  padding: 25px;
+}

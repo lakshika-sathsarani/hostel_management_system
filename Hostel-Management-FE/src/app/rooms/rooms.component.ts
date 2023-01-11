@@ -14,7 +14,7 @@ import { NgFor } from '@angular/common';
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css'],
 })
-export class RoomsComponent {
+export class RoomsComponent implements OnInit {
   isVisible = false;
   validateForm!: UntypedFormGroup;
   hostels: any[] = [];
