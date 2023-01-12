@@ -71,9 +71,10 @@ exports.updateUser = async (req, res) => {
 exports.updateStudentHostel = async (req, res) => {
   try {
     const data = req.body;
+    console.log("sss", data);
     const result = await User.updateOne(
       { _id: req.params.id },
-      { hostel: data.hostel }
+      { hostel: data }
     );
     if (result) {
       res.status(200).send({ message: "success!", data: result });

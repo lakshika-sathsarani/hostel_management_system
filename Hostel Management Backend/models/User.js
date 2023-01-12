@@ -33,6 +33,9 @@ const UserSchema = new mongoose.Schema({
   hostel: {
     hostelId: String,
     roomId: String,
+    payment: String,
+    stayFrom: String,
+    option: Number,
   },
 });
 

@@ -9,7 +9,7 @@ const {
 } = require("../controllers/room.controller");
 
 router.post("/", addRoom);
-router.get("/:hostelId", getRoomsByHostelId);
+router.get("/by-hostel/:hostelId", getRoomsByHostelId);
 router.get("/", getRooms);
 router.delete("/:id", deleteRoom);
 router.put("/:id", updateRoom);

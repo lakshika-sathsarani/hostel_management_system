@@ -1,0 +1,67 @@
+<div class="main">
+  <h2 style="text-align: center">Hostel Reservation</h2>
+  <div class="form">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Hostel Name</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzErrorTip="Please Select Hostel Name!">
+          <nz-select
+            formControlName="hostelId"
+            nzPlaceHolder="Select Hostel Name"
+            style="width: 100%"
+            [nzOptions]="hostels.length > 0 ? hostels : []"
+            (ngModelChange)="onHostelChange($event)"
+          ></nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Room Id</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzErrorTip="Please Select Room Id!">
+          <nz-select
+            formControlName="roomId"
+            nzPlaceHolder="Select Room Id"
+            style="width: 100%"
+            [nzOptions]="rooms.length > 0 ? rooms : []"
+          >
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="6">Stay From</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzErrorTip="Select Date!">
+          <nz-date-picker
+            formControlName="stayFrom"
+            style="width: 100%"
+            [(ngModel)]="date"
+            [nzDisabledDate]="disabledDate"
+          ></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Options</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzErrorTip="Select Option!">
+          <nz-radio-group
+            [(ngModel)]="radioValue"
+            formControlName="option"
+            (ngModelChange)="onChange($event)"
+          >
+            <label nz-radio nzValue="0">Without Food</label>
+            <label nz-radio nzValue="1">With Food (2000 LKR for month)</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6">Total Payment</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <span>{{ total + "LKR" }}</span>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="12"></nz-form-control>
+        <nz-form-control [nzSpan]="12">
+          <button nz-button [nzType]="'primary'">Reserve</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
