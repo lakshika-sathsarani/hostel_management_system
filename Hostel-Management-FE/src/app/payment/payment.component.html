@@ -1,0 +1,19 @@
+<app-header>
+  <div class="main">
+    <h2 style="font-weight: bold; color: '#1D2F6F'">
+      Make Your Payment With PayPal
+    </h2>
+    <div id="myPaypalButtons"></div>
+    <div [hidden]="!visible">
+      <nz-result
+        nzStatus="success"
+        nzTitle="Payment Successfully!"
+        nzSubTitle="Transaction number: 2017182818828182881"
+      >
+        <div nz-result-extra>
+          <button (click)="onCancle()" nz-button>Close</button>
+        </div>
+      </nz-result>
+    </div>
+  </div>
+</app-header>

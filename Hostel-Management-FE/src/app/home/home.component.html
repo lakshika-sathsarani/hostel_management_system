@@ -1,47 +1,51 @@
-<div>
-  <div class="main-container">
-    <h2 style="text-align: center">User Profile</h2>
-    <div class="avatar">
-      <nz-avatar [nzSize]="120" nzIcon="user"></nz-avatar>
-    </div>
-    <nz-descriptions nzTitle="User Info">
-      <nz-descriptions-item nzTitle="Name">{{
-        user?.name ?? ""
-      }}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Student ID">{{
-        user?.id ?? ""
-      }}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Mobile">{{
-        user?.mobile ?? ""
-      }}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="E-Mail">{{
-        user?.email ?? ""
-      }}</nz-descriptions-item>
-    </nz-descriptions>
-    <div>
-      <nz-divider></nz-divider>
-      <nz-descriptions nzTitle="Hostel Info">
-        <nz-descriptions-item nzTitle="Hostel Name">{{
-          user?.hostel?.hostelId ?? "N/A"
+<app-header>
+  <div>
+    <div class="main-container">
+      <h2 style="text-align: center">User Profile</h2>
+      <div class="avatar">
+        <nz-avatar [nzSize]="120" nzIcon="user"></nz-avatar>
+      </div>
+      <nz-descriptions nzTitle="User Info">
+        <nz-descriptions-item nzTitle="Name">{{
+          user?.name ?? ""
         }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Room ID">{{
-          user?.hostel?.roomId ?? "N/A"
+        <nz-descriptions-item nzTitle="Student ID">{{
+          user?.id ?? ""
         }}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Monthly Payment">{{
-          user?.hostel?.payment ? user?.hostel?.payment + " LKR" : "N/A"
+        <nz-descriptions-item nzTitle="Mobile">{{
+          user?.mobile ?? ""
+        }}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="E-Mail">{{
+          user?.email ?? ""
         }}</nz-descriptions-item>
       </nz-descriptions>
+      <div>
+        <nz-divider></nz-divider>
+        <nz-descriptions nzTitle="Hostel Info">
+          <nz-descriptions-item nzTitle="Hostel Name">{{
+            user?.hostel?.hostelId ?? "N/A"
+          }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Room ID">{{
+            user?.hostel?.roomId ?? "N/A"
+          }}</nz-descriptions-item>
+          <nz-descriptions-item nzTitle="Monthly Payment">{{
+            user?.hostel?.payment ? user?.hostel?.payment + " LKR" : "N/A"
+          }}</nz-descriptions-item>
+        </nz-descriptions>
+      </div>
+    </div>
+    <div class="btn-group">
+      <button
+        (click)="redirect('/booking')"
+        style="margin-right: 25px"
+        nz-button
+        nzType="primary"
+      >
+        Make Reservation
+      </button>
+      <button (click)="redirect('/payment')" nz-button nzType="primary">
+        Make Payment
+      </button>
     </div>
   </div>
-  <div class="btn-group">
-    <button
-      (click)="reservationPath()"
-      style="margin-right: 25px"
-      nz-button
-      nzType="primary"
-    >
-      Make Reservation
-    </button>
-    <button nz-button nzType="primary">Make Payment</button>
-  </div>
-</div>
+</app-header>

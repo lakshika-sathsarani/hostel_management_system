@@ -20,6 +20,8 @@ import { UserManagementComponent } from './user-management/user-management.compo
 import { HomeComponent } from './home/home.component';
 import { SiderComponent } from './sider/sider.component';
 import { BookingComponent } from './booking/booking.component';
+import { HeaderComponent } from './header/header.component';
+import { PaymentComponent } from './payment/payment.component';
 
 registerLocaleData(en);
 
@@ -34,6 +36,8 @@ registerLocaleData(en);
     HomeComponent,
     SiderComponent,
     BookingComponent,
+    HeaderComponent,
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,
