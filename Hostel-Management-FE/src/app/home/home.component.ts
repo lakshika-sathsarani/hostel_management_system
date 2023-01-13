@@ -16,8 +16,8 @@ export class HomeComponent implements OnInit {
     private storageService: StorageService,
     private userService: UserService
   ) {}
-  reservationPath(): void {
-    this.router.navigate(['/booking']);
+  redirect(path: string): void {
+    this.router.navigate([path]);
   }
 
   getUser(): void {

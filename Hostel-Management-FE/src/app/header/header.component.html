@@ -1,0 +1,15 @@
+<nz-layout class="layout">
+  <nz-header>
+    <div class="logo"></div>
+    <ul nz-menu nzTheme="dark" nzMode="horizontal">
+      <li (click)="redirect('/home')" nz-menu-item>Home</li>
+      <li (click)="redirect('/payment')" nz-menu-item>Payment</li>
+      <li (click)="redirect('/booking')" nz-menu-item>Reservation</li>
+      <li style="float: right" (click)="logout()" nz-menu-item>Logout</li>
+    </ul>
+  </nz-header>
+  <nz-content>
+    <ng-content></ng-content>
+  </nz-content>
+  <nz-footer>Hostel Managment System ©2023</nz-footer>
+</nz-layout>
