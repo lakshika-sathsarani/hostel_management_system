@@ -29,8 +29,8 @@ export class UserManagementComponent implements OnInit {
     this.getUsers();
   }
 
-  deleteUser(userId: string): void {
-    this.userService.deleteUser(userId).subscribe({
+  deleteUser(id: string): void {
+    this.userService.userDelete(id).subscribe({
       next: () => {
         this.message.success('User Deleted!');
         this.getUsers();

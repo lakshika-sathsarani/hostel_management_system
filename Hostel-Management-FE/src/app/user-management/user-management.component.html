@@ -28,7 +28,14 @@
             }}
           </td>
           <td>
-            <a (click)="deleteUser(data._id)">Delete</a>
+            <a
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure delete this user?"
+              nzPopconfirmPlacement="bottom"
+              (nzOnConfirm)="deleteUser(data._id)"
+            >
+              Delete
+            </a>
           </td>
         </tr>
       </tbody>

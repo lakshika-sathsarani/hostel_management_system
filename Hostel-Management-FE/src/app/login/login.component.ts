@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
           this.storageService.saveUser(data.data.token);
           this.isLoggedIn = true;
           if (data.data.user.role === 'Student') {
-            this.router.navigate(['/']);
+            this.router.navigate(['/home']);
           } else {
             this.router.navigate(['/admin/user-management']);
           }

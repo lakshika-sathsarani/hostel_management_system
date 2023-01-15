@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 
 const API = 'http://localhost:4000/api/';
 
@@ -15,7 +15,9 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(values: any): Observable<any> {
-    return this.http.post(API + 'user/login', values, httpOptions);
+    return this.http
+      .post(API + 'user/login', values, httpOptions)
+      .pipe(catchError(async (err) => console.log('Error', err)));
   }
 
   register(values: any): Observable<any> {
