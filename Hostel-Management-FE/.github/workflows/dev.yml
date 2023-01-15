@@ -1,0 +1,22 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Do the job on the runner
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check utilities
+        run: git --version
+
+      - name: Frontend
+        run: |
+          npm
+          npm install
+          npm ng build
