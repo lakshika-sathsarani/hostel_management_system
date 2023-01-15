@@ -18,13 +18,7 @@ jobs:
       - name: Check utilities
         run: git --version
 
-      - name: Backend
-        run: |
-          cd Hostel Management Backend
-          yarn
-          yarn install
-
-      - name: Lint Frontend
+      - name: Frontend
         run: |
           cd Hostel-Management-FE
           npm
