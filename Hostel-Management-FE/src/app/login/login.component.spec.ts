@@ -1,22 +1,36 @@
-import { fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { LoginComponent } from './login.component';
+import { TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { AuthService } from '../_services/auth.service';
+
+const API = 'http://localhost:4000/api';
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+  let service: AuthService;
+  let httpController: HttpTestingController;
 
-  beforeEach(fakeAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule],
+    });
+    service = TestBed.inject(AuthService);
+    httpController = TestBed.inject(HttpTestingController);
+  });
 
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
-
-  it('should compile', () => {
-    expect(component).toBeTruthy();
+  it('should login', () => {
+    const data = {
+      username: 'IT1000',
+      password: '12345',
+    };
+    service.login(data).subscribe((res) => {
+      expect(res).toEqual(data);
+    });
+    const req = httpController.expectOne({
+      method: 'POST',
+      url: `${API}/user/login`,
+    });
+    req.flush(data);
   });
 });

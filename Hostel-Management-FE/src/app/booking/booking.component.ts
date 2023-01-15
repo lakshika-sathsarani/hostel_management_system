@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { differenceInCalendarDays } from 'date-fns';
 import {
   UntypedFormBuilder,
@@ -15,6 +15,9 @@ import { Router } from '@angular/router';
   selector: 'app-booking',
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.css'],
+})
+@Injectable({
+  providedIn: 'root',
 })
 export class BookingComponent implements OnInit {
   date = null;

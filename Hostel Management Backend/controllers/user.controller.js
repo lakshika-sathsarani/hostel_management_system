@@ -41,16 +41,16 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (res, req) => {
+exports.userDelete = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (user) {
-      res.status(200).send({ message: "success!", data: user });
+    const result = await User.findByIdAndDelete(req.params.id);
+    if (result) {
+      res.status(200).send({ message: "success!", data: result });
     } else {
-      res.status(400).send({ message: "failed!", data: user });
+      res.status(400).send({ message: "failed!", data: result });
     }
   } catch (error) {
-    console.log("Error in Delete User", error);
+    console.log("Error in Delete Room", error);
   }
 };
 
