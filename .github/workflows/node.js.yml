@@ -20,6 +20,7 @@ jobs:
 
       - name: Frontend
         run: |
+          cd ..
           cd Hostel-Management-FE
           npm
           npm install
