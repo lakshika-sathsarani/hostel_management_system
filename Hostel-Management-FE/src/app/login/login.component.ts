@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     if (this.storageService.isLoggedIn()) {
       this.isLoggedIn = true;
       if (this.storageService.getUser().role === 'Student') {
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       } else {
         this.router.navigate(['/admin/user-management']);
       }
